@@ -1,4 +1,5 @@
 name: Test Application
+
 on:
   pull_request:
     branches:
@@ -6,15 +7,29 @@ on:
   push:
     branches:
       - main
+
 jobs:
   test:
     runs-on: macos-15
+    
     steps:
       - uses: actions/checkout@v3
+      
       - uses: jdx/mise-action@v2
+      
       - name: Select Xcode
         run: sudo xcode-select -switch /Applications/Xcode_16.1.app
+      
       - name: Fix plugins
         run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+      
       - run: tuist install
+      
       - run: tuist test Cork
+
+      # Upload the test build artifacts
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-artifacts
+          path: ./build/**/*.xcresult # Adjust the path to your actual build output (usually .xcresult)
