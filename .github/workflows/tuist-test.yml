@@ -27,7 +27,12 @@ jobs:
       
       # Build the project
       - name: Build the project
-        run: tuist build Cork
+        run: tuist build Cork -- -derivedDataPath ./build
+      # Find it 
+      - name: Find .app bundles
+        run: |
+          find $HOME -type d -name '*.app'
+
 
       # Upload the build artifacts (e.g., .app or .ipa)
       - name: Upload build artifacts
