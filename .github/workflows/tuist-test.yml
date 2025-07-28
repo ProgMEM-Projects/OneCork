@@ -25,11 +25,13 @@ jobs:
       
       - run: tuist install
       
-      - run: tuist test Cork
+      # Build the project
+      - name: Build the project
+        run: tuist build Cork
 
-      # Upload the test build artifacts
-      - name: Upload test artifacts
+      # Upload the build artifacts (e.g., .app or .ipa)
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: test-artifacts
-          path: ./build/**/*.xcresult # Adjust the path to your actual build output (usually .xcresult)
+          name: build-artifacts
+          path: ./build/**/Cork.app  # Modify this path based on the output directory of the build
